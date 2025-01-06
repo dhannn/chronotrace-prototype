@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <title>ChronoTrace | COMET Residency Tracker</title>
+
+    <style>
+        @keyframes time-left-anim {
+            0% { width: 0%; }
+            80% { background-color: black; }
+            100% { width: 40vh; background-color: red; }
+        }
+
+        #time-left {
+            animation-name: time-left-anim;
+            animation-duration: 30s;
+            height: 1vh; 
+            background-color: black;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; position: absolute; width: 100vw; top: 20vh; height: 100vh; align-items: center;">
+        <img id="qr-code" style="width: 40vh;"/>
+        <p style="font-family: 'Inter'; width: 40vh; text-align: center;"id="totp"></p>
+        <div style="width: 0vw;" id="time-left"></div>
+    </div>
+
+    <script defer>
+        
+        const qr = fetch('/qr-code');
+        const canvas = document.getElementById('qr-code');
+        const totp_p = document.getElementById('totp');
+        const time_left = document.getElementById('time-left');
+        qr.then(async (res) => {
+            const token = await res.text();
+            canvas.src = `/static/qr-${token}.png`
+            totp_p.innerText = token
+        });
+
+        setInterval(() => {
+            const qr = fetch('/qr-code');
+            const canvas = document.getElementById('qr-code');
+            const totp_p = document.getElementById('totp');
+            const time_left = document.getElementById('time-left');
+            qr.then(async (res) => {
+                const token = await res.text();
+                canvas.src = `/static/qr-${token}.png`
+                totp_p.innerText = token
+            });
+        }, 30_000)
+
+    </script>
+</body>
+</html>

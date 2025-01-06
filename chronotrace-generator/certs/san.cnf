@@ -1,0 +1,26 @@
+[req]
+default_bits = 2048
+distinguished_name = req_distinguished_name
+req_extensions = req_ext
+x509_extensions = v3_ca
+
+[req_distinguished_name]
+countryName = PH
+countryName_default = PH
+stateOrProvinceName = Manila
+stateOrProvinceName_default = Manila
+localityName = Manila
+localityName_default = Manila
+organizationalUnitName = Lab Ops
+organizationalUnitName_default = COMET
+commonName = 192.168.0.23
+commonName_default = localhost
+commonName_max = 64
+
+[req_ext]
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 127.0.0.1
+IP.2 = 192.168.0.23
+DNS.1 = localhost
